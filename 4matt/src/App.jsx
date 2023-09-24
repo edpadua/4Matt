@@ -12,6 +12,8 @@ import Navbar from "./Components/Bars/Navbar";
 
 import tw from "tailwind-styled-components";
 
+import DataProvider from "./Context/Data";
+
 import "./App.css";
 
 const Container = tw.div`
@@ -24,17 +26,19 @@ bg-slate-200
 function App() {
   return (
     <>
-      <Navbar/>
-      <Container>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Cost />} />
-            <Route path="/spend" element={<Spend />} />
-            <Route path="/transactions" element={<Transactions />} />
-            <Route path="/licences" element={<Licences />} />
-          </Routes>
-        </BrowserRouter>
-      </Container>
+      <DataProvider>
+        <Navbar />
+        <Container>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Cost />} />
+              <Route path="/spend" element={<Spend />} />
+              <Route path="/transactions" element={<Transactions />} />
+              <Route path="/licences" element={<Licences />} />
+            </Routes>
+          </BrowserRouter>
+        </Container>
+      </DataProvider>
     </>
   );
 }
