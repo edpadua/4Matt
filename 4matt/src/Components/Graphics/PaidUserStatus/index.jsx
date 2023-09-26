@@ -1,10 +1,12 @@
 import React from 'react'
 
+import GraphicContainer from "../GraphicContainer";
+
 function PaidUserStatus() {
   return (
-    <div>
-      
-    </div>
+    <>
+    <GraphicContainer title="Paid User Status"></GraphicContainer>
+ </>
   )
 }
 

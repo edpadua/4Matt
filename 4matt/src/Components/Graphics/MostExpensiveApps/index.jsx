@@ -1,11 +1,13 @@
 import React from 'react'
 
+import GraphicContainer from "../GraphicContainer";
+
 function MostExpensiveApps() {
   return (
-    <div>
-      
-    </div>
+    <>
+       <GraphicContainer title="Most Expensive Apps"></GraphicContainer>
+    </>
   )
 }
 
-export default index
+export default MostExpensiveApps;

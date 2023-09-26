@@ -11,6 +11,7 @@ export default function DataProvider({ children }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [dates, setDates] = useState([]);
+  const [licences, setLicences]= useState([]);
   const [monthsYear, setMonthsYear] = useState([]);
   const [monthsYearObj, setMonthsYearObj] = useState([]);
   const [Months, setMonths] = useState([]);
@@ -19,6 +20,11 @@ export default function DataProvider({ children }) {
   function selectDates(data) {
     const { Date } = data;
     return Date;
+  }
+
+  function selectLicences(data) {
+    const { Application, Spend } = data;
+    return { Application, Spend };
   }
 
   function monthYearList(month, year) {
@@ -34,6 +40,13 @@ export default function DataProvider({ children }) {
     const date2 = new Date(b);
 
     return date1 - date2;
+  }
+
+  function numberComparison(a, b) {
+    const num1 = Number(a);
+    const num2 = Number(b);
+
+    return num1-num2;
   }
 
   function padTo2Digits(num) {
@@ -65,6 +78,47 @@ export default function DataProvider({ children }) {
     return newArray;
   }
 
+
+  function isInList(item,array){
+    for (let i in array) {
+     
+        let obj = array[i];
+        
+       
+  
+        if(item.Application==obj.Application){
+            return true;
+        }
+  
+    }
+    return false;
+  
+  }
+
+  function removeDuplicates2(array) {
+    
+    let newArray = [];
+
+    
+    for (let i in array) {
+     
+      let objTitle = array[i];
+      
+    
+      if(!isInList(objTitle,newArray)){
+        newArray.push(objTitle);
+      }
+
+    }
+
+    
+    return newArray;
+  }
+
+
+  
+
+
   const getData = async () => {
     console.log("Get data");
 
@@ -72,6 +126,12 @@ export default function DataProvider({ children }) {
       const resp = await axios.get("http://localhost:3000/data", {
         headers: { "Content-Type": "application/json" },
       });
+      const onlyLicences = resp.data.map(selectLicences);
+      const onlyLicencesUnique = removeDuplicates2(onlyLicences);
+      onlyLicencesUnique.sort((a, b) => {
+        return b.Spend - a.Spend;
+      });
+      onlyLicencesUnique.sort(numberComparison);
       const onlyDates = [...new Set(resp.data.map(selectDates))];
       const onlyDatesDates = onlyDates.map(
         (dateString) => new Date(dateString)
@@ -108,6 +168,8 @@ export default function DataProvider({ children }) {
 
    
       console.log("data", resp.data);
+      console.log("onlyLicences", onlyLicences);
+      console.log("onlyLicencesUnique", onlyLicencesUnique);
       console.log("onlyDates", onlyDates);
       console.log("onlyDatesDates", onlyDatesDates);
       console.log("onlyDatesOrdered", onlyDatesOrdered);
@@ -116,6 +178,7 @@ export default function DataProvider({ children }) {
       console.log("onlyMonthsOrdered", onlyMonthsYearOrdered);
       console.log("MonthYear", monthYear);
       console.log("monthYearUnique", monthYearUnique);
+      setLicences(onlyLicencesUnique);
       setDates(onlyDatesOrdered);
       setMonthsYear(onlyMonthsYearOrdered);
       setMonthsYearObj(monthYearUnique);
@@ -135,6 +198,7 @@ export default function DataProvider({ children }) {
         data,
         monthsYear,
         monthsYearObj,
+        licences,
       }}
     >
       {children}

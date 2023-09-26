@@ -1,10 +1,12 @@
 import React from 'react'
 
+import GraphicContainer from "../GraphicContainer";
+
 function SpendByCategory() {
   return (
-    <div>
-      
-    </div>
+    <>
+    <GraphicContainer title="Spend By Category"></GraphicContainer>
+ </>
   )
 }
 

@@ -1,65 +1,129 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../../Context/Data";
 
 import GraphicContainer from "../GraphicContainer";
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+      text: 'Invoice Spend Overtime',
+    },
+  },
+};
+
 function InvoiceSpendOvertime() {
-  const { data, monthsYear, monthsYearObj } = useContext(DataContext);
+  const { data, monthsYearObj } = useContext(DataContext);
 
   const [monthYearInvoice, setMonthYearInvoice] = useState([]);
+
+  const [invoice, setInvoice] = useState([]);
+
+  const [incomeTotalperiod, setIncomeTotalperiod] = useState(0);  
+
+  const [labels, setLabels] = useState([]);
+
+  const [graphicData, setGraphicData] = useState(
+    {
+      labels: [],
+      datasets: []
+    }
+  );
 
   function padTo2Digits(num) {
     return num.toString().padStart(2, "0");
   }
 
-  useEffect(() => {
-    const getMonthYearInvoice = () => {
-      console.log("Filter", data);
-      const newMonthYearInvoice = monthYearInvoice;
-      console.log("Temp2", newMonthYearInvoice);
+  function getMonthYearInvoice() {
+ 
+    let newMonthYearInvoice = monthYearInvoice;
+    let newInvoice = invoice;
+    let newLabels = labels;
+    if (monthYearInvoice.length == 0) {
+      let newIncomeTotalperiod=0;
+      console.log("get Month Year Invoice");
+      console.log("newMonthYearInvoice", newMonthYearInvoice);
+      console.log("newLabels", newLabels);
+      console.log("newInvoice", newInvoice);
+
       monthsYearObj.map(function calcInvoice(item) {
         let sum = 0;
-        console.log("Temp1", monthYearInvoice);
-        
-        console.log("newMonthYearInvoice", newMonthYearInvoice);
-        console.log("item", item);
-        setMonthYearInvoice([]);
-        
-        /*data.forEach((element) => {
+
+        data.forEach((element) => {
           if (
             item["0"] == padTo2Digits(new Date(element.Date).getMonth() + 1) &&
             item["1"] == new Date(element.Date).getFullYear()
           ) {
-            
-           
-           
-            sum += Number(element.Spend);
+            sum += (Number(element.Spend)*(Number(element["Active Users"])+Number(element["Inative Users"])));
+            newIncomeTotalperiod+=(Number(element.Spend)*(Number(element["Active Users"])+Number(element["Inative Users"])));
             
           }
-         
-        });*/
-       
+        });
+
+
         newMonthYearInvoice.push({
           month: item["0"],
-          Year: item["1"],
-          IncomeTotal: 2,
+          year: item["1"],
+          incomeTotal: sum,
         });
-        console.log("Push");
-        setMonthYearInvoice(newMonthYearInvoice);
-       
+        newLabels.push(item["0"] + " " + item["1"]);
+        newInvoice.push(sum);
+        setIncomeTotalperiod(newIncomeTotalperiod);
+        
       });
-     
-    };
-    console.log("Temp", monthYearInvoice);
+    }
+    setGraphicData(
+      {
+        labels: labels,
+        datasets: [{
+          label: 'Dataset 1',
+          data: invoice,
+          borderColor: 'rgb(53, 162, 235)',
+          backgroundColor: 'rgba(255,255,255, 0.5)',
+        }]
+       
+      }
+    )
+  }
+
+  useEffect(() => {
     getMonthYearInvoice();
-  }, [data,monthYearInvoice,setMonthYearInvoice]);
+    console.log("Temp", monthYearInvoice);
+  }, [data]);
 
   return (
     <>
-      {data
-        ? data.map((item, index) => <h2 key={index}>{item.Date}</h2>)
-        : "Loading"}
-      <GraphicContainer title="Invoice Spend Overtime"></GraphicContainer>
+     
+        <h2>{incomeTotalperiod}</h2>
+        <Line options={options} data={graphicData} />
+      
     </>
   );
 }

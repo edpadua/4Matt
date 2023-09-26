@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+
+import GraphicContainer from "../GraphicContainer";
 
 function ApplicationSpendIncrease() {
   return (
-    <div>
-      
-    </div>
-  )
+    <>
+      <GraphicContainer title="Aplication Spend Icrease"></GraphicContainer>
+    </>
+  );
 }
 
-export default ApplicationSpendIncrease
+export default ApplicationSpendIncrease;
