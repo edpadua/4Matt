@@ -8,7 +8,11 @@ import Transactions from "./Pages/Transactions";
 
 import Licences from "./Pages/Licences";
 
+import HelloWorld from "./Pages/HelloWorld";
+
 import Navbar from "./Components/Bars/Navbar";
+
+import LeftBar from "./Components/Bars/LeftBar";
 
 import tw from "tailwind-styled-components";
 
@@ -17,27 +21,42 @@ import DataProvider from "./Context/Data";
 import "./App.css";
 
 const Container = tw.div`
-bg-slate-200
+     min-h-screen
+     bg-slate-200
      w-full 
      px-16 
      py-10
+`;
+
+const Container2 = tw.div`
+     flex
+`;
+
+const Container3 = tw.div`
+     w-full
 `;
 
 function App() {
   return (
     <>
       <DataProvider>
-        <Navbar />
-        <Container>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Cost />} />
-              <Route path="/spend" element={<Spend />} />
-              <Route path="/transactions" element={<Transactions />} />
-              <Route path="/licences" element={<Licences />} />
-            </Routes>
-          </BrowserRouter>
-        </Container>
+        <BrowserRouter>
+          <Container2>
+            <LeftBar />
+            <Container3>
+              <Navbar />
+              <Container>
+                <Routes>
+                  <Route path="/" element={<Cost />} />
+                  <Route path="/applications" element={<HelloWorld />} />
+                  <Route path="/spend" element={<HelloWorld />} />
+                  <Route path="/transactions" element={<HelloWorld />} />
+                  <Route path="/licences" element={<HelloWorld />} />
+                </Routes>
+              </Container>
+            </Container3>
+          </Container2>
+        </BrowserRouter>
       </DataProvider>
     </>
   );

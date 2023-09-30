@@ -44,7 +44,7 @@ export const options = {
 
 function MostExpensiveLicences() {
 
-  const { licences } = useContext(DataContext);
+  const { data, licences } = useContext(DataContext);
 
   const [labels,setLabels] = useState([]);
 
@@ -71,37 +71,40 @@ function MostExpensiveLicences() {
   }
 
 
-  function separateData(){
+  
+
+  useEffect(() => {
+    
+    function separateData(){
       const newLabels=licences.map(selectLabels);
       const newSpends= licences.map(selectSpendApp);
       console.log("newLabels",newLabels);
       console.log("newSpends",newSpends);
       setLabels(newLabels);
       setSpendApp(newSpends);
+      setGraphicData(
+        {
+          labels: newLabels,
+          datasets: [{
+            label: 'Dataset 1',
+            data: newSpends,
+            borderColor: 'rgb(53, 162, 235)',
+            backgroundColor: 'rgba(255,255,255, 0.5)',
+          }]
+         
+        }
+      )
+    }
 
-  }
-
-  useEffect(() => {
-    
     separateData();
-    setGraphicData(
-      {
-        labels: labels,
-        datasets: [{
-          label: 'Dataset 1',
-          data: spendApp,
-          borderColor: 'rgb(53, 162, 235)',
-          backgroundColor: 'rgba(255,255,255, 0.5)',
-        }]
-       
-      }
-    )
+    
+    console.log("graphicData",graphicData);
   }, [licences]);
 
   return (
     <>
-      
-       <Bar options={options} data={graphicData} />;
+   
+       <Bar options={options} data={graphicData} />
       
     </>
   );

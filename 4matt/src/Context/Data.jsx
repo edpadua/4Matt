@@ -8,12 +8,18 @@ DataContext.displayName = "Data";
 
 export default function DataProvider({ children }) {
   const [data, setData] = useState([]);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState("01/01/1970");
+  const [endDate, setEndDate] = useState("01/01/2050");
   const [dates, setDates] = useState([]);
   const [licences, setLicences]= useState([]);
+  const [categories,setCategories]=useState([]);
+  const [category,setCategory]=useState("All");
+  const [application,setApplication]=useState("All");
   const [monthsYear, setMonthsYear] = useState([]);
   const [monthsYearObj, setMonthsYearObj] = useState([]);
+  const [monthYearInvoice, setMonthYearInvoice] = useState([]);
+  const [invoice, setInvoice] = useState([]);
+  const [dateLabels, setDateLabels] = useState([]);
   const [Months, setMonths] = useState([]);
   const [Years, setYears] = useState([]);
 
@@ -25,6 +31,11 @@ export default function DataProvider({ children }) {
   function selectLicences(data) {
     const { Application, Spend } = data;
     return { Application, Spend };
+  }
+
+  function selectCategories(data) {
+    const { Category } = data;
+    return Category;
   }
 
   function monthYearList(month, year) {
@@ -121,18 +132,62 @@ export default function DataProvider({ children }) {
 
   const getData = async () => {
     console.log("Get data");
+    setCategories([]);
+    setLicences([]);
+    setDates([]);
+    setMonthsYear([]);
+    setMonthsYearObj([]);
+    setMonthYearInvoice([]);
+    setInvoice([]);
+    setDateLabels([]);
+    setData([]);
 
     try {
       const resp = await axios.get("http://localhost:3000/data", {
         headers: { "Content-Type": "application/json" },
       });
-      const onlyLicences = resp.data.map(selectLicences);
+
+      let dataFiltered = [];
+      
+      dataFiltered=resp.data;
+      
+          if(category!="All"){
+            dataFiltered = dataFiltered.filter(function (el) {
+                return el.Category==category
+                       
+            });
+          }
+          if(application!="All"){
+            dataFiltered = dataFiltered.filter(function (el) {
+                return el.Application==application
+                       
+            });
+          }
+          if(startDate!="01/01/1970"){
+            dataFiltered = dataFiltered.filter(function (el) {
+                return new Date(el.Date)>=new Date(startDate)
+                       
+            });
+          }
+          if(endDate!="01/01/2050"){
+            dataFiltered = dataFiltered.filter(function (el) {
+                return new Date(el.Date)<=new Date(endDate)
+                       
+            });
+          }
+      
+
+      const onlyLicences = dataFiltered.map(selectLicences);
       const onlyLicencesUnique = removeDuplicates2(onlyLicences);
       onlyLicencesUnique.sort((a, b) => {
         return b.Spend - a.Spend;
       });
       onlyLicencesUnique.sort(numberComparison);
-      const onlyDates = [...new Set(resp.data.map(selectDates))];
+
+      const onlyCategories = [...new Set(dataFiltered.map(selectCategories))];
+      
+
+      const onlyDates = [...new Set(dataFiltered.map(selectDates))];
       const onlyDatesDates = onlyDates.map(
         (dateString) => new Date(dateString)
       );
@@ -145,6 +200,7 @@ export default function DataProvider({ children }) {
           "/" +
           date.getFullYear()
       );
+
       const onlyMonthsYearOrdered = [
         ...new Set(
           onlyDatesDates.map(
@@ -167,7 +223,8 @@ export default function DataProvider({ children }) {
       const monthYearUnique=removeDuplicates(monthYear);
 
    
-      console.log("data", resp.data);
+      console.log("dataFiltered", dataFiltered);
+      
       console.log("onlyLicences", onlyLicences);
       console.log("onlyLicencesUnique", onlyLicencesUnique);
       console.log("onlyDates", onlyDates);
@@ -178,19 +235,26 @@ export default function DataProvider({ children }) {
       console.log("onlyMonthsOrdered", onlyMonthsYearOrdered);
       console.log("MonthYear", monthYear);
       console.log("monthYearUnique", monthYearUnique);
+      
+      setData(dataFiltered);
       setLicences(onlyLicencesUnique);
       setDates(onlyDatesOrdered);
       setMonthsYear(onlyMonthsYearOrdered);
       setMonthsYearObj(monthYearUnique);
-      setData(resp.data);
+
+      console.log("onlyCategories", onlyCategories);
+      setCategories(onlyCategories);
+      
+      
     } catch (error) {
       console.log(error);
     }
+    
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [category,application,startDate,endDate]);
 
   return (
     <DataContext.Provider
@@ -199,6 +263,22 @@ export default function DataProvider({ children }) {
         monthsYear,
         monthsYearObj,
         licences,
+        categories,
+        category,
+        monthYearInvoice,
+        invoice,
+        dateLabels,
+        application,
+        startDate,
+        endDate,
+        setInvoice,
+        setDateLabels,
+        setCategory,
+        setApplication,
+        setMonthYearInvoice,
+        getData,
+        setStartDate,
+        setEndDate,
       }}
     >
       {children}

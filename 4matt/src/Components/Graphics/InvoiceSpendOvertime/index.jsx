@@ -40,15 +40,11 @@ const options = {
 };
 
 function InvoiceSpendOvertime() {
-  const { data, monthsYearObj } = useContext(DataContext);
-
-  const [monthYearInvoice, setMonthYearInvoice] = useState([]);
-
-  const [invoice, setInvoice] = useState([]);
+  const { data, monthsYearObj, monthYearInvoice, invoice, setInvoice, setMonthYearInvoice, dateLabels, setDateLabels } = useContext(DataContext);
 
   const [incomeTotalperiod, setIncomeTotalperiod] = useState(0);  
 
-  const [labels, setLabels] = useState([]);
+
 
   const [graphicData, setGraphicData] = useState(
     {
@@ -65,7 +61,7 @@ function InvoiceSpendOvertime() {
  
     let newMonthYearInvoice = monthYearInvoice;
     let newInvoice = invoice;
-    let newLabels = labels;
+    let newLabels = dateLabels;
     if (monthYearInvoice.length == 0) {
       let newIncomeTotalperiod=0;
       console.log("get Month Year Invoice");
@@ -95,13 +91,16 @@ function InvoiceSpendOvertime() {
         });
         newLabels.push(item["0"] + " " + item["1"]);
         newInvoice.push(sum);
+        setInvoice(newInvoice);
+        setDateLabels(newLabels);
         setIncomeTotalperiod(newIncomeTotalperiod);
-        
+      
       });
     }
+    console.log("labels",dateLabels);
     setGraphicData(
       {
-        labels: labels,
+        labels: dateLabels,
         datasets: [{
           label: 'Dataset 1',
           data: invoice,
@@ -120,7 +119,13 @@ function InvoiceSpendOvertime() {
 
   return (
     <>
-     
+      {monthYearInvoice
+        ? monthYearInvoice.map((item, index) => (
+            <div key={index}>
+              <h2 >{item.month} - {item.year} - {item.incomeTotal}</h2>
+            </div>
+          ))
+        : "Loading"}
         <h2>{incomeTotalperiod}</h2>
         <Line options={options} data={graphicData} />
       
