@@ -24,8 +24,8 @@ const Container = tw.div`
      min-h-screen
      bg-slate-200
      w-full 
-     px-16 
-     py-10
+     px-4
+     py-4
 `;
 
 const Container2 = tw.div`

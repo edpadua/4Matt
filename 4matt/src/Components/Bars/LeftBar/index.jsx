@@ -1,12 +1,17 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import { FaRegChartBar } from "react-icons/fa"
 
 import tw from "tailwind-styled-components";
 
 function LeftBar() {
+
+  const [open,setOpen]=useState("w-0 bg-slate-400 justify-center flex border-solid border-r-2 border-gray-900 duration-75");
+
   return (
-    <div className='w-2/12 bg-slate-400 justify-center flex'>
+    
+    <div className={open} onMouseEnter={() => setOpen("w-2/12 bg-slate-400 justify-center flex duration-75")}
+    onMouseLeave={() => setOpen("w-0 bg-slate-400 justify-center flex border-solid border-r-2 border-gray-900 duration-75")}> 
         <div>
           <FaRegChartBar className="pt-4 mb-4" style={{ fontSize: '50px' }} />
         <ul>
@@ -17,6 +22,7 @@ function LeftBar() {
         </ul>
         </div>
     </div>
+    
   )
 }
 

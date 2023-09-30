@@ -1,12 +1,13 @@
 import React from "react";
 
 import GraphicContainer from "../GraphicContainer";
+import { GraphicBox } from "../../../GlobalStyles";
 
 function ApplicationSpendIncrease() {
   return (
-    <>
-      <GraphicContainer title="Aplication Spend Icrease"></GraphicContainer>
-    </>
+    <GraphicBox>
+       <div className='h-60'></div>
+    </GraphicBox>
   );
 }
 

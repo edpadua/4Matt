@@ -18,7 +18,7 @@ const Nav = tw.nav`
 `;
 
 const NavContainer = tw.div`
-    px-16 
+    px-4 
     flex
 
 `;
@@ -28,7 +28,7 @@ function Navbar() {
 
   return (
     <Nav>
-      <NavContainer className="px-16 flex">
+      <NavContainer>
         <ul className="flex">
           <li className="mr-4">
             <NavLink

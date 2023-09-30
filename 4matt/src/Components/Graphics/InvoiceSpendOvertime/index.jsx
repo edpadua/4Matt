@@ -1,6 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../../Context/Data";
 
+import { GraphicBox } from "../../../GlobalStyles";
+
 import GraphicContainer from "../GraphicContainer";
 
 import {
@@ -26,25 +28,25 @@ ChartJS.register(
   Legend
 );
 
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top',
-    },
-    title: {
-      display: true,
-      text: 'Invoice Spend Overtime',
-    },
-  },
-};
 
 function InvoiceSpendOvertime() {
   const { data, monthsYearObj, monthYearInvoice, invoice, setInvoice, setMonthYearInvoice, dateLabels, setDateLabels } = useContext(DataContext);
 
   const [incomeTotalperiod, setIncomeTotalperiod] = useState(0);  
 
-
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: `Invoice Spend Overtime - $ ${incomeTotalperiod}`,
+      },
+    },
+  };
+  
 
   const [graphicData, setGraphicData] = useState(
     {
@@ -118,18 +120,11 @@ function InvoiceSpendOvertime() {
   }, [data]);
 
   return (
-    <>
-      {monthYearInvoice
-        ? monthYearInvoice.map((item, index) => (
-            <div key={index}>
-              <h2 >{item.month} - {item.year} - {item.incomeTotal}</h2>
-            </div>
-          ))
-        : "Loading"}
-        <h2>{incomeTotalperiod}</h2>
+    <GraphicBox>
+  
         <Line options={options} data={graphicData} />
       
-    </>
+    </GraphicBox>
   );
 }
 

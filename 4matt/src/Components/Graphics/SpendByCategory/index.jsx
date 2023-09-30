@@ -1,12 +1,14 @@
 import React from 'react'
 
 import GraphicContainer from "../GraphicContainer";
+import { GraphicBox } from '../../../GlobalStyles';
 
 function SpendByCategory() {
   return (
-    <>
-    <GraphicContainer title="Spend By Category"></GraphicContainer>
- </>
+    
+ <GraphicBox>
+     <div className='h-60'></div>
+ </GraphicBox>
   )
 }
 

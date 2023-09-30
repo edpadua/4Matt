@@ -5,7 +5,7 @@ import { DataContext } from "../../Context/Data";
 import tw from "tailwind-styled-components";
 
 const InputItem = tw.div`
-pr-4`;
+pr-4 mb-4 lg:mb-0`;
 
 function Filter() {
   const {
@@ -87,11 +87,12 @@ function Filter() {
   };
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full pb-4 flex-col lg:flex-row ">
       <InputItem>
-        <label className="font-bold pr-4">Data Inicial</label>
+        <label className="font-bold pr-4">Data Inicial:</label>
 
         <input
+          className="px-2"
           type="date"
           value={startDate}
           placeholder="Data inicial"
@@ -99,8 +100,9 @@ function Filter() {
         />
       </InputItem>
       <InputItem>
-        <label className="font-bold pr-4">Data Final</label>
+        <label className="font-bold pr-4">Data Final:</label>
         <input
+          className="px-2"
           type="date"
           value={endDate}
           placeholder="Data final"
@@ -108,9 +110,10 @@ function Filter() {
         />
       </InputItem>
       <InputItem>
+        <label className="font-bold pr-4">Categorias:</label>
         <select
           name="category"
-          className="form-control"
+          className="form-control px-2"
           onChange={atualizaCategoria}
         >
           <option disabled={true} value="">
@@ -124,9 +127,10 @@ function Filter() {
         </select>
       </InputItem>
       <InputItem>
+        <label className="font-bold pr-4">Aplicativos:</label>
         <select
           name="application"
-          className="form-control"
+          className="form-control px-2"
           onChange={atualizaAplicacao}
         >
           <option disabled={true} value="">

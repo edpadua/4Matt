@@ -13,6 +13,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { GraphicBox } from "../../../GlobalStyles";
 
 ChartJS.register(
   CategoryScale,
@@ -102,11 +103,11 @@ function MostExpensiveLicences() {
   }, [licences]);
 
   return (
-    <>
+    <GraphicBox>
    
        <Bar options={options} data={graphicData} />
       
-    </>
+    </GraphicBox>
   );
 }
 

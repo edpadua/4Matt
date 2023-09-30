@@ -2,11 +2,13 @@ import React from 'react'
 
 import GraphicContainer from "../GraphicContainer";
 
+import { GraphicBox } from '../../../GlobalStyles';
+
 function MostExpensiveApps() {
   return (
-    <>
-       <GraphicContainer title="Most Expensive Apps"></GraphicContainer>
-    </>
+    <GraphicBox>
+        <div className='h-60'></div>
+    </GraphicBox>
   )
 }
 
