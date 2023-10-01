@@ -154,14 +154,7 @@ export default function DataProvider({ children }) {
         (dateString) => new Date(dateString)
       );
       onlyDatesDates.sort(dateComparison);
-      const onlyDatesOrdered = onlyDatesDates.map(
-        (date) =>
-          padTo2Digits(date.getMonth() + 1) +
-          "/" +
-          padTo2Digits(date.getDate()) +
-          "/" +
-          date.getFullYear()
-      );
+      
 
       const onlyMonthsYearOrdered = [
         ...new Set(
@@ -184,25 +177,14 @@ export default function DataProvider({ children }) {
 
       const monthYearUnique = removeDuplicates(monthYear);
 
-      console.log("dataFiltered", dataFiltered);
-
-      console.log("onlyLicences", onlyLicences);
-      console.log("onlyLicencesUnique", onlyLicencesUnique);
-      console.log("onlyDates", onlyDates);
-      console.log("onlyDatesDates", onlyDatesDates);
-      console.log("onlyDatesOrdered", onlyDatesOrdered);
-      console.log("onlyMonthsOrdered", onlyMonthsOrdered);
-      console.log("onlyYearsOrdered", onlyYearsOrdered);
-      console.log("onlyMonthsOrdered", onlyMonthsYearOrdered);
-      console.log("MonthYear", monthYear);
-      console.log("monthYearUnique", monthYearUnique);
+      
 
       setData(dataFiltered);
       setLicences(onlyLicencesUnique);
       setMonthsYear(onlyMonthsYearOrdered);
       setMonthsYearObj(monthYearUnique);
 
-      console.log("onlyCategories", onlyCategories);
+    
       setCategories(onlyCategories);
     } catch (error) {
       console.log(error);

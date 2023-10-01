@@ -1,8 +1,6 @@
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import tw from "tailwind-styled-components";
-
-
 
 const Nav = tw.nav`
     bg-slate-200
