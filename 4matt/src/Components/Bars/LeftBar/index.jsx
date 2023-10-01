@@ -1,17 +1,19 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 
 import { FaRegChartBar } from "react-icons/fa"
 
-import tw from "tailwind-styled-components";
+const classClosed="w-0 bg-slate-400 justify-center flex border-solid border-r-2 border-gray-900 duration-75";
+
+const classOpened="w-2/12 bg-slate-400 justify-center flex duration-75"
 
 function LeftBar() {
 
-  const [open,setOpen]=useState("w-0 bg-slate-400 justify-center flex border-solid border-r-2 border-gray-900 duration-75");
+  const [open,setOpen]=useState(classClosed);
 
   return (
     
-    <div className={open} onMouseEnter={() => setOpen("w-2/12 bg-slate-400 justify-center flex duration-75")}
-    onMouseLeave={() => setOpen("w-0 bg-slate-400 justify-center flex border-solid border-r-2 border-gray-900 duration-75")}> 
+    <div className={open} onMouseEnter={() => setOpen(classOpened)}
+    onMouseLeave={() => setOpen(classClosed)}> 
         <div>
           <FaRegChartBar className="pt-4 mb-4" style={{ fontSize: '50px' }} />
         <ul>
