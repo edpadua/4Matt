@@ -3,8 +3,6 @@ import { DataContext } from "../../../Context/Data";
 
 import { GraphicBox } from "../../../GlobalStyles";
 
-import GraphicContainer from "../GraphicContainer";
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -30,7 +28,7 @@ ChartJS.register(
 
 
 function InvoiceSpendOvertime() {
-  const { data, monthsYearObj, monthYearInvoice, invoice, setInvoice, setMonthYearInvoice, dateLabels, setDateLabels } = useContext(DataContext);
+  const { data, monthsYearObj, monthYearInvoice, invoice, setInvoice, dateLabels, setDateLabels } = useContext(DataContext);
 
   const [incomeTotalperiod, setIncomeTotalperiod] = useState(0);  
 

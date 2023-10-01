@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 
 import { DataContext } from "../../Context/Data";
 
@@ -9,16 +9,12 @@ pr-4 mb-4 lg:mb-0`;
 
 function Filter() {
   const {
-    categories,
-    category,
     setCategory,
-    application,
     setApplication,
     startDate,
     endDate,
     setStartDate,
     setEndDate,
-    getData,
   } = useContext(DataContext);
   const options = [
     {

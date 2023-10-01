@@ -1,6 +1,3 @@
-import React from 'react'
-
-import GraphicContainer from "../GraphicContainer";
 import { GraphicBox } from '../../../GlobalStyles';
 
 function SpendByCategory() {

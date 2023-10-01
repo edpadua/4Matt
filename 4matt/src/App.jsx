@@ -2,12 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Cost from "./Pages/Cost";
 
-import Spend from "./Pages/Spend";
-
-import Transactions from "./Pages/Transactions";
-
-import Licences from "./Pages/Licences";
-
 import HelloWorld from "./Pages/HelloWorld";
 
 import Navbar from "./Components/Bars/Navbar";

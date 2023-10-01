@@ -10,18 +10,16 @@ export default function DataProvider({ children }) {
   const [data, setData] = useState([]);
   const [startDate, setStartDate] = useState("01/01/1970");
   const [endDate, setEndDate] = useState("01/01/2050");
-  const [dates, setDates] = useState([]);
-  const [licences, setLicences]= useState([]);
-  const [categories,setCategories]=useState([]);
-  const [category,setCategory]=useState("All");
-  const [application,setApplication]=useState("All");
+  const [licences, setLicences] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState("All");
+  const [application, setApplication] = useState("All");
   const [monthsYear, setMonthsYear] = useState([]);
   const [monthsYearObj, setMonthsYearObj] = useState([]);
   const [monthYearInvoice, setMonthYearInvoice] = useState([]);
   const [invoice, setInvoice] = useState([]);
   const [dateLabels, setDateLabels] = useState([]);
-  const [Months, setMonths] = useState([]);
-  const [Years, setYears] = useState([]);
+ 
 
   function selectDates(data) {
     const { Date } = data;
@@ -38,13 +36,7 @@ export default function DataProvider({ children }) {
     return Category;
   }
 
-  function monthYearList(month, year) {
-    const obj = Object.fromEntries(
-      month.map((key, index) => [key, year[index]])
-    );
 
-    return obj;
-  }
 
   function dateComparison(a, b) {
     const date1 = new Date(a);
@@ -57,7 +49,7 @@ export default function DataProvider({ children }) {
     const num1 = Number(a);
     const num2 = Number(b);
 
-    return num1-num2;
+    return num1 - num2;
   }
 
   function padTo2Digits(num) {
@@ -65,76 +57,52 @@ export default function DataProvider({ children }) {
   }
 
   function removeDuplicates(array) {
-    
     let newArray = [];
 
-    
     let uniqueObject = {};
 
-    
     for (let i in array) {
-     
       let objTitle = array[i][0];
 
-     
       uniqueObject[objTitle] = array[i];
     }
 
-    
     for (let i in uniqueObject) {
       newArray.push(uniqueObject[i]);
     }
 
-    
     return newArray;
   }
 
-
-  function isInList(item,array){
+  function isInList(item, array) {
     for (let i in array) {
-     
-        let obj = array[i];
-        
-       
-  
-        if(item.Application==obj.Application){
-            return true;
-        }
-  
+      let obj = array[i];
+
+      if (item.Application == obj.Application) {
+        return true;
+      }
     }
     return false;
-  
   }
 
   function removeDuplicates2(array) {
-    
     let newArray = [];
 
-    
     for (let i in array) {
-     
       let objTitle = array[i];
-      
-    
-      if(!isInList(objTitle,newArray)){
+
+      if (!isInList(objTitle, newArray)) {
         newArray.push(objTitle);
       }
-
     }
 
-    
     return newArray;
   }
-
-
-  
-
 
   const getData = async () => {
     console.log("Get data");
     setCategories([]);
     setLicences([]);
-    setDates([]);
     setMonthsYear([]);
     setMonthsYearObj([]);
     setMonthYearInvoice([]);
@@ -148,34 +116,29 @@ export default function DataProvider({ children }) {
       });
 
       let dataFiltered = [];
-      
-      dataFiltered=resp.data;
-      
-          if(category!="All"){
-            dataFiltered = dataFiltered.filter(function (el) {
-                return el.Category==category
-                       
-            });
-          }
-          if(application!="All"){
-            dataFiltered = dataFiltered.filter(function (el) {
-                return el.Application==application
-                       
-            });
-          }
-          if(startDate!="01/01/1970"){
-            dataFiltered = dataFiltered.filter(function (el) {
-                return new Date(el.Date)>=new Date(startDate)
-                       
-            });
-          }
-          if(endDate!="01/01/2050"){
-            dataFiltered = dataFiltered.filter(function (el) {
-                return new Date(el.Date)<=new Date(endDate)
-                       
-            });
-          }
-      
+
+      dataFiltered = resp.data;
+
+      if (category != "All") {
+        dataFiltered = dataFiltered.filter(function (el) {
+          return el.Category == category;
+        });
+      }
+      if (application != "All") {
+        dataFiltered = dataFiltered.filter(function (el) {
+          return el.Application == application;
+        });
+      }
+      if (startDate != "01/01/1970") {
+        dataFiltered = dataFiltered.filter(function (el) {
+          return new Date(el.Date) >= new Date(startDate);
+        });
+      }
+      if (endDate != "01/01/2050") {
+        dataFiltered = dataFiltered.filter(function (el) {
+          return new Date(el.Date) <= new Date(endDate);
+        });
+      }
 
       const onlyLicences = dataFiltered.map(selectLicences);
       const onlyLicencesUnique = removeDuplicates2(onlyLicences);
@@ -185,7 +148,6 @@ export default function DataProvider({ children }) {
       onlyLicencesUnique.sort(numberComparison);
 
       const onlyCategories = [...new Set(dataFiltered.map(selectCategories))];
-      
 
       const onlyDates = [...new Set(dataFiltered.map(selectDates))];
       const onlyDatesDates = onlyDates.map(
@@ -220,11 +182,10 @@ export default function DataProvider({ children }) {
         return { ...temp };
       });
 
-      const monthYearUnique=removeDuplicates(monthYear);
+      const monthYearUnique = removeDuplicates(monthYear);
 
-   
       console.log("dataFiltered", dataFiltered);
-      
+
       console.log("onlyLicences", onlyLicences);
       console.log("onlyLicencesUnique", onlyLicencesUnique);
       console.log("onlyDates", onlyDates);
@@ -235,26 +196,22 @@ export default function DataProvider({ children }) {
       console.log("onlyMonthsOrdered", onlyMonthsYearOrdered);
       console.log("MonthYear", monthYear);
       console.log("monthYearUnique", monthYearUnique);
-      
+
       setData(dataFiltered);
       setLicences(onlyLicencesUnique);
-      setDates(onlyDatesOrdered);
       setMonthsYear(onlyMonthsYearOrdered);
       setMonthsYearObj(monthYearUnique);
 
       console.log("onlyCategories", onlyCategories);
       setCategories(onlyCategories);
-      
-      
     } catch (error) {
       console.log(error);
     }
-    
   };
 
   useEffect(() => {
     getData();
-  }, [category,application,startDate,endDate]);
+  }, [category, application, startDate, endDate]);
 
   return (
     <DataContext.Provider

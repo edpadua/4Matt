@@ -1,8 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../../Context/Data";
 
-import GraphicContainer from "../GraphicContainer";
-
 import {
   Chart as ChartJS,  
   CategoryScale,
@@ -45,11 +43,7 @@ export const options = {
 
 function MostExpensiveLicences() {
 
-  const { data, licences } = useContext(DataContext);
-
-  const [labels,setLabels] = useState([]);
-
-  const [spendApp,setSpendApp] = useState([]);
+  const { licences } = useContext(DataContext);
 
   const [graphicData, setGraphicData] = useState(
     {
@@ -81,8 +75,7 @@ function MostExpensiveLicences() {
       const newSpends= licences.map(selectSpendApp);
       console.log("newLabels",newLabels);
       console.log("newSpends",newSpends);
-      setLabels(newLabels);
-      setSpendApp(newSpends);
+      
       setGraphicData(
         {
           labels: newLabels,
